@@ -7,10 +7,7 @@ $(document).ready(function() {
 let cargarUsuarios = async () => {
     const request = await fetch('api/usuarios', {
       method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+      headers: getHeaders()
     });
     const usuarios = await request.json();
 
@@ -37,16 +34,21 @@ let cargarUsuarios = async () => {
     document.querySelector('#usuarios tbody').outerHTML= listadohtml;
 }
 
+let getHeaders = () =>{
+    return {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.token
+    }
+}
+
 let eliminarUsuario = async (id) =>{
     if (!confirm('Desea eliminar')){
         return;
     }
     const request = await fetch('api/usuarios/'+id, {
         method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+        headers: getHeaders()
     });
 
     document.location.reload(); // actualiza
